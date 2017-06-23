@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<point xmlns="http://v8.1c.ru/8.2/virtual-resource-system"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		base="/{{ ctx.pub_name }}"
+		ib="Srvr=&quot;{{ ctx.server_addr }}&quot;;Ref=&quot;{{ ctx.ibase_name }}&quot;;"
+		enableStandardOData="true">
+    {% if ctx.debug %}
+	<debug enable="true"
+			protocol="tcp"
+			url="tcp://{{ ctx.debug }}"/>
+	{% endif %}
+    <httpServices publishByDefault="false">
+		{% for el in ctx.http %}
+        <service name="{{ el }}"
+				rootUrl="{{ el }}"
+				enable="true"/>
+		{% endfor %}
+	</httpServices>
+	<ws>
+        {% for el in ctx.soap %}
+        <point name="{{ el }}"
+				alias="{{ el }}.1cws"
+				enable="true"/>
+		{% endfor %}
+	</ws>
+</point>
